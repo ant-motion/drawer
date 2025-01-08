@@ -143,12 +143,26 @@ describe('rc-drawer-menu', () => {
   });
 
   describe('mask', () => {
-    it('mask false not lock body scroll', () => {
-      const { unmount } = render(<Drawer open mask={false} />);
+    it('not lock body scroll when getContainer is not body', () => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
+      const { unmount } = render(<Drawer open getContainer={() => div} />);
       const drawer = document.querySelector('.rc-drawer');
       expect(drawer).toBeTruthy();
       expect(document.body.contains(drawer)).toBeTruthy();
       expect(document.body).not.toHaveStyle({
+        overflowY: 'hidden',
+      });
+      unmount();
+    });
+    it('lock body scroll when getContainer give document.body', () => {
+      const { unmount } = render(
+        <Drawer open getContainer={() => document.body} />,
+      );
+      const drawer = document.querySelector('.rc-drawer');
+      expect(drawer).toBeTruthy();
+      expect(document.body.contains(drawer)).toBeTruthy();
+      expect(document.body).toHaveStyle({
         overflowY: 'hidden',
       });
       unmount();

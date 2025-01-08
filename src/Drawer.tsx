@@ -137,7 +137,7 @@ const Drawer: React.FC<DrawerProps> = props => {
         open={mergedOpen || forceRender || animatedVisible}
         autoDestroy={false}
         getContainer={getContainer}
-        autoLock={mask && (mergedOpen || animatedVisible)}
+        autoLock={mergedOpen || animatedVisible}
       >
         <DrawerPopup {...drawerPopupProps} />
       </Portal>
